@@ -1,5 +1,4 @@
 #include <iostream>
-#include <GL/gl.h>
 
 #include "Interaction/Window/WindowCreatorClient.h"
 

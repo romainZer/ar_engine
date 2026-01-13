@@ -12,11 +12,7 @@
  * Clear the color from the last frame
  */
 void OpenGL_Renderer::prepare() {
-    constexpr uint8_t red = 1;
-    constexpr uint8_t green = 0;
-    constexpr uint8_t blue = 0;
-    constexpr uint8_t alpha = 1;
-    glad_glClearColor(red, green, blue, alpha);
+    glad_glClearColor(1, 0, 0, 1);
 }
 
 /**

@@ -18,8 +18,10 @@ void WindowCreatorClient::create(const PlatformEnum platform) {
             break;
 #endif
 #ifdef __linux__
-        case PlatformEnum::LINUX:
-            strategy = std::make_unique<GLFW_WindowCreator>();
+        case PlatformEnum::WINDOWS:
+            loader = std::make_unique<OpenGL_Loader>();
+            renderer = std::make_unique<OpenGL_Renderer>();
+            strategy = std::make_unique<GLFW_WindowCreator>(*loader, *renderer);
             break;
 #endif
         default:

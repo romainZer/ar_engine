@@ -6,11 +6,11 @@
 #include "../Drawing/Renderer/IRenderer.h"
 
 /**
- * Window maker strategy that creates a base window depending on the user platform (ex : Window, Linux..)
+ * Window maker strategy that creates a base window depending on the user platform (ex: Window, Linux, etc.)
  */
 class IWindowCreatorStrategy {
 public:
-    explicit IWindowCreatorStrategy(IGraphicLoader& loader, IRenderer& renderer);
+    explicit IWindowCreatorStrategy(IGraphicLoader& loader, IRenderer& renderer) {}
     virtual ~IWindowCreatorStrategy() = default;
 
     /**

@@ -9,7 +9,6 @@
 #include <GLFW/glfw3.h>
 
 #include "../IWindowCreatorStrategy.h"
-#include "../../Drawing/Drawer/Implementation/DrawerClient.h"
 #include "../../Drawing/Renderer/IRenderer.h"
 
 /**
@@ -17,8 +16,8 @@
  */
 class GLFW_WindowCreator : public IWindowCreatorStrategy {
 private:
-    std::unique_ptr<IGraphicLoader> loader;
-    std::unique_ptr<DrawerClient> drawer;
+    IGraphicLoader* loader;
+    IRenderer* renderer;
 
     /**
      * Initializes the window configuration
@@ -51,6 +50,8 @@ public:
      * @param y Window height
      */
     void createWindow(uint16_t x, uint16_t y) override;
+
+    void runMainLoop(GLFWwindow *window) const;
 };
 
 #endif //AR_ENGINE_LINUXPLATFORMWINDOWMAKER_H
