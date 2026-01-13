@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 4.1)
 
-if(DEFINED ENV{VCPKG_ROOT})
+if (DEFINED ENV{VCPKG_ROOT})
     set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
             CACHE STRING "Vcpkg toolchain file")
-elseif(EXISTS "C:/Users/romai/vcpkg/scripts/buildsystems/vcpkg.cmake")
+elseif (EXISTS "C:/Users/romai/vcpkg/scripts/buildsystems/vcpkg.cmake")
     set(CMAKE_TOOLCHAIN_FILE "C:/Users/romai/vcpkg/scripts/buildsystems/vcpkg.cmake"
             CACHE STRING "Vcpkg toolchain file")
-endif()
+endif ()
 
 project(ar_engine LANGUAGES CXX C)
 
@@ -19,11 +19,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(OpenGL REQUIRED)
 
 # Sur Windows avec vcpkg, utilise CONFIG, sur Linux utilise MODULE
-if(WIN32)
+if (WIN32)
     find_package(glfw3 CONFIG REQUIRED)
-else()
+else ()
     find_package(glfw3 REQUIRED)
-endif()
+endif ()
 
 # -----------------------------
 # Executable
@@ -38,13 +38,8 @@ add_executable(ar_engine
         Interaction/Window/Implementation/GLFW_WindowCreator.h
         Interaction/Environment/Environment.cpp
         Interaction/Environment/Environment.h
-        Interaction/Drawing/Drawer/Implementation/DrawerClient.cpp
-        Interaction/Drawing/Drawer/Implementation/DrawerClient.h
         External/glad/src/glad.c
-        Interaction/Drawing/Drawer/IDrawerResource.h
         Interaction/Drawing/Enums/ActionEnum.h
-        Interaction/Drawing/Implementation/OpenGL_GraphicClient.cpp
-        Interaction/Drawing/Implementation/OpenGL_GraphicClient.h
         Interaction/Drawing/Models/RawModel.h
         Interaction/Drawing/Models/RawModel.cpp
         Interaction/Drawing/Loader/Implementation/OpenGL_Loader.cpp

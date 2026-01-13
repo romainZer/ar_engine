@@ -7,7 +7,7 @@
 #include "../IRenderer.h"
 #include "../../Models/RawModel.h"
 
-class OpenGL_Renderer : IRenderer {
+class OpenGL_Renderer : public IRenderer {
 public:
     /**
      * Clear the color from the last frame
