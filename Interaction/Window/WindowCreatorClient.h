@@ -22,7 +22,7 @@ protected:
     std::unique_ptr<IRenderer> renderer;
 public:
     WindowCreatorClient() = default;
-    ~WindowCreatorClient() = default;
+    ~WindowCreatorClient();
 
     /**
      * Creates a window depending on the provided platform

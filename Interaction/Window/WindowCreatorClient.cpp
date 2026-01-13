@@ -8,6 +8,12 @@
 #include "../Environment/Environment.h"
 #include "Implementation/GLFW_WindowCreator.h"
 
+WindowCreatorClient::~WindowCreatorClient() {
+    strategy.reset();
+    loader.reset();
+    renderer.reset();
+}
+
 void WindowCreatorClient::create(const PlatformEnum platform) {
     switch (platform) {
 #ifdef _WIN32

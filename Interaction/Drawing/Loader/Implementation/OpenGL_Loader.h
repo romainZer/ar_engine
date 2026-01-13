@@ -31,6 +31,9 @@ private:
     int createVAO();
 
 public:
+    OpenGL_Loader() = default;
+
+    ~OpenGL_Loader() override;
 
     /**
      * Loads positions into a VAO
@@ -44,6 +47,5 @@ public:
      */
     void cleanUp() override;
 };
-
 
 #endif //AR_ENGINE_LOADER_H

@@ -40,11 +40,18 @@ std::unique_ptr<RawModel> OpenGL_Loader::loadToVAO(const std::vector<float> &pos
     return std::make_unique<RawModel>(vaoId, vertexCount);
 }
 
+OpenGL_Loader::~OpenGL_Loader() {
+    OpenGL_Loader::cleanUp();
+}
+
 void OpenGL_Loader::cleanUp() {
-    for (int i = 0; i < VAOs.size(); ++i) {
-        glad_glDeleteVertexArrays(1, &this->VAOs[i]);
+    if (!VAOs.empty()) {
+        glad_glDeleteVertexArrays(static_cast<GLsizei>(VAOs.size()), VAOs.data());
+        VAOs.clear();
     }
-    for (int i = 0; i < VBOs.size(); ++i) {
-        glad_glDeleteBuffers(1, &this->VBOs[i]);
+
+    if (!VBOs.empty()) {
+        glad_glDeleteBuffers(static_cast<GLsizei>(VBOs.size()), VBOs.data());
+        VBOs.clear();
     }
 }

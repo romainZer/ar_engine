@@ -14,13 +14,14 @@
  */
 class IGraphicLoader {
 public:
+    IGraphicLoader() = default;
     virtual ~IGraphicLoader() = default;
 
     /**
-         * Loads positions into a VAO
-         * @param positions All the positions to load into the VAO
-         * @return A unique pointer to the created RawModel
-         */
+     * Loads positions into a VAO
+     * @param positions All the positions to load into the VAO
+     * @return A unique pointer to the created RawModel
+     */
     virtual std::unique_ptr<RawModel> loadToVAO(const std::vector<float> &positions) = 0;
 
     /**

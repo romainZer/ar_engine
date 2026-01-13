@@ -14,47 +14,45 @@ GLFW_WindowCreator::GLFW_WindowCreator(IGraphicLoader &loader, IRenderer &render
 }
 
 void GLFW_WindowCreator::createWindow(uint16_t x, uint16_t y) {
-    bool success = true;
-
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
-        success = false;
+        return;
     }
 
-    if (success) {
-        initConfig();
+    initConfig();
 
-        GLFWwindow *window = createWindowAndDefineContext(
-            Environment::getWidth(),
-            Environment::getHeight(),
-            Environment::getWindowTitle().c_str()
-        );
+    GLFWwindow *window = createWindowAndDefineContext(
+        Environment::getWidth(),
+        Environment::getHeight(),
+        Environment::getWindowTitle().c_str()
+    );
 
-        if (!window) {
-            std::cerr << "Failed to create GLFW window" << std::endl;
-            glfwTerminate();
-        } else {
-            if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
-                std::cerr << "Failed to initialize GLAD" << std::endl;
-                clearWindow(window);
-                success = false;
-            }
-
-            if (success) {
-                runMainLoop(window);
-                clearWindow(window);
-            }
-        }
+    if (!window) {
+        std::cerr << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return;
     }
+
+    if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
+        std::cerr << "Failed to initialize GLAD" << std::endl;
+        glfwDestroyWindow(window);
+        glfwTerminate();
+        return;
+    }
+
+    runMainLoop(window);
+    loader->cleanUp();
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }
 
-void GLFW_WindowCreator::runMainLoop(GLFWwindow* window) const {
+void GLFW_WindowCreator::runMainLoop(GLFWwindow *window) const {
     const std::vector<float> vertices = {
         -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.5f,  0.5f, 0.0f,
-         0.5f,  0.5f, 0.0f,
-        -0.5f,  0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.5f, 0.5f, 0.0f,
+        0.5f, 0.5f, 0.0f,
+        -0.5f, 0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
     };
 
