@@ -7,7 +7,9 @@
 
 #include <memory>
 
-#include "WindowCreatorStrategy.h"
+#include "IWindowCreatorStrategy.h"
+#include "../Drawing/Loader/IGraphicLoader.h"
+#include "../Drawing/Renderer/IRenderer.h"
 #include "Enums/PlatformEnum.h"
 
 /**
@@ -16,7 +18,8 @@
 class WindowCreatorClient {
 protected:
     std::unique_ptr<IWindowCreatorStrategy> strategy;
-
+    std::unique_ptr<IGraphicLoader> loader;
+    std::unique_ptr<IRenderer> renderer;
 public:
     WindowCreatorClient() = default;
     ~WindowCreatorClient() = default;

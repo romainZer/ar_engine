@@ -3,18 +3,25 @@
 #include <iostream>
 #include <ostream>
 
+#include "../Drawing/Loader/Implementation/OpenGL_Loader.h"
+#include "../Drawing/Renderer/Implementation/OpenGL_Renderer.h"
 #include "../Environment/Environment.h"
-#include "Implementation/LinuxPlatformWindowMaker.h"
-#include "Implementation/WindowsPlatformWindowMaker.h"
+#include "Implementation/GLFW_WindowCreator.h"
 
 void WindowCreatorClient::create(const PlatformEnum platform) {
     switch (platform) {
+#ifdef _WIN32
         case PlatformEnum::WINDOWS:
-            strategy = std::make_unique<WindowsPlatformWindowMaker>();
+            loader = std::make_unique<OpenGL_Loader>();
+            renderer = std::make_unique<OpenGL_Renderer>();
+            strategy = std::make_unique<GLFW_WindowCreator>(*loader, *renderer);
             break;
+#endif
+#ifdef __linux__
         case PlatformEnum::LINUX:
-            strategy = std::make_unique<LinuxPlatformWindowMaker>();
+            strategy = std::make_unique<GLFW_WindowCreator>();
             break;
+#endif
         default:
             std::cout << "Unknown Platform!" << std::endl;
             strategy.reset();
@@ -26,4 +33,4 @@ void WindowCreatorClient::create(const PlatformEnum platform) {
     if (strategy && WINDOW_HEIGHT && WINDOW_WIDTH) {
         strategy->createWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
     }
-};
+}

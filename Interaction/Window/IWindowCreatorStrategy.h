@@ -2,12 +2,15 @@
 #define AR_ENGINE_WINDOWMAKERDAO_H
 #include <cstdint>
 
+#include "../Drawing/Loader/IGraphicLoader.h"
+#include "../Drawing/Renderer/IRenderer.h"
+
 /**
  * Window maker strategy that creates a base window depending on the user platform (ex : Window, Linux..)
  */
 class IWindowCreatorStrategy {
 public:
-    IWindowCreatorStrategy() = default;
+    explicit IWindowCreatorStrategy(IGraphicLoader& loader, IRenderer& renderer);
     virtual ~IWindowCreatorStrategy() = default;
 
     /**

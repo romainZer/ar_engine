@@ -2,13 +2,18 @@
 // Created by romainz on 06/01/2026.
 //
 
-#include "LinuxPlatformWindowMaker.h"
-#include <GLFW/glfw3.h>
+#include "GLFW_WindowCreator.h"
 #include <iostream>
+#include <GLFW/glfw3.h>
 
 #include "../../Environment/Environment.h"
 
-void LinuxPlatformWindowMaker::createWindow(const uint16_t x, const uint16_t y) {
+GLFW_WindowCreator::GLFW_WindowCreator(IGraphicLoader &loader, IRenderer &renderer) : IWindowCreatorStrategy(
+    loader, renderer) {
+    this->loader = std::make_unique<IGraphicLoader>(loader);
+}
+
+void GLFW_WindowCreator::createWindow(uint16_t x, uint16_t y) {
     if (!glfwInit()) {
         std::cerr << "Erreur lors de l'initialisation de GLFW" << std::endl;
         return;
@@ -16,7 +21,6 @@ void LinuxPlatformWindowMaker::createWindow(const uint16_t x, const uint16_t y) 
 
     initConfig();
 
-    // Window creation
     GLFWwindow *window = createWindowAndDefineContext(
         Environment::getWidth(),
         Environment::getHeight(),
@@ -28,18 +32,23 @@ void LinuxPlatformWindowMaker::createWindow(const uint16_t x, const uint16_t y) 
         return;
     }
 
-    // Render loop
+    drawer = std::make_unique<DrawerClient>();
+
     while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents(); //Events manager
-        glfwSwapBuffers(window); //Swap buffers
-        glClear(GL_COLOR_BUFFER_BIT); //Clear screen
+        glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        loader->loadToVAO();
+
+        glfwSwapBuffers(window);
     }
 
     clearWindow(window);
 }
 
-GLFWwindow *LinuxPlatformWindowMaker::createWindowAndDefineContext(const uint16_t width, const uint16_t height,
-                                                                   const char *title) {
+
+GLFWwindow *GLFW_WindowCreator::createWindowAndDefineContext(const uint16_t width, const uint16_t height,
+                                                             const char *title) {
     GLFWwindow *window = glfwCreateWindow(width, height, title, nullptr, nullptr);
     if (!window) {
         std::cerr << "Error while creating the window." << std::endl;
@@ -54,7 +63,7 @@ GLFWwindow *LinuxPlatformWindowMaker::createWindowAndDefineContext(const uint16_
     return window;
 }
 
-void LinuxPlatformWindowMaker::clearWindow(GLFWwindow *window) {
+void GLFW_WindowCreator::clearWindow(GLFWwindow *window) {
     //Window cleaning
     if (window) {
         glfwDestroyWindow(window);
@@ -62,9 +71,7 @@ void LinuxPlatformWindowMaker::clearWindow(GLFWwindow *window) {
     glfwTerminate();
 }
 
-void LinuxPlatformWindowMaker::initConfig() {
-    // Configuration de GLFW
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+void GLFW_WindowCreator::initConfig() {
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 }
