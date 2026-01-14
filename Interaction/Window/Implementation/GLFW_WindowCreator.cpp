@@ -7,11 +7,6 @@
 
 #include "../../Environment/Environment.h"
 
-GLFW_WindowCreator::GLFW_WindowCreator(IGraphicLoader &loader, IRenderer &renderer)
-    : IWindowCreatorStrategy(loader, renderer) {
-    this->loader = &loader;
-    this->renderer = &renderer;
-}
 
 void GLFW_WindowCreator::createWindow(uint16_t x, uint16_t y) {
     if (!glfwInit()) {
@@ -41,7 +36,7 @@ void GLFW_WindowCreator::createWindow(uint16_t x, uint16_t y) {
     }
 
     runMainLoop(window);
-    loader->cleanUp();
+    loader.cleanUp();
     glfwDestroyWindow(window);
     glfwTerminate();
 }
@@ -56,15 +51,15 @@ void GLFW_WindowCreator::runMainLoop(GLFWwindow *window) const {
         -0.5f, -0.5f, 0.0f,
     };
 
-    const auto model = loader->loadToVAO(vertices);
+    const auto model = loader.loadToVAO(vertices);
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
 
-        renderer->prepare();
+        renderer.prepare();
         glClear(GL_COLOR_BUFFER_BIT);
 
-        renderer->render(*model);
+        renderer.render(*model);
 
         glfwSwapBuffers(window);
     }

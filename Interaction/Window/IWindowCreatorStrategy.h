@@ -9,8 +9,12 @@
  * Window maker strategy that creates a base window depending on the user platform (ex: Window, Linux, etc.)
  */
 class IWindowCreatorStrategy {
+protected:
+    IGraphicLoader& loader;
+    IRenderer& renderer;
 public:
-    explicit IWindowCreatorStrategy(IGraphicLoader& loader, IRenderer& renderer) {}
+    explicit IWindowCreatorStrategy(IGraphicLoader& loader, IRenderer& renderer)
+            : loader(loader), renderer(renderer) {}
     virtual ~IWindowCreatorStrategy() = default;
 
     /**

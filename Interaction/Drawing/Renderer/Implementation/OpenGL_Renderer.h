@@ -12,13 +12,13 @@ public:
     /**
      * Clear the color from the last frame
      */
-    void prepare();
+    void prepare() override;
 
     /**
      * Main rendering entry point
      * @param model VAO Model that contains vertexes and vao Id info
      */
-    void render(const RawModel &model);
+    void render(const RawModel &model) override;
 };
 
 

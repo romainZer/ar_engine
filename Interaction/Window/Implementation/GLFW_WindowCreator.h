@@ -16,9 +16,6 @@
  */
 class GLFW_WindowCreator : public IWindowCreatorStrategy {
 private:
-    IGraphicLoader* loader;
-    IRenderer* renderer;
-
     /**
      * Initializes the window configuration
      */
@@ -40,9 +37,8 @@ private:
     void clearWindow(GLFWwindow *window);
 
 public:
-    explicit GLFW_WindowCreator(IGraphicLoader &loader, IRenderer &renderer);
-
-    ~GLFW_WindowCreator() override = default;
+    explicit GLFW_WindowCreator(IGraphicLoader& loader, IRenderer& renderer)
+        : IWindowCreatorStrategy(loader, renderer) {}
 
     /**
      * Creates a window
@@ -50,8 +46,7 @@ public:
      * @param y Window height
      */
     void createWindow(uint16_t x, uint16_t y) override;
-
-    void runMainLoop(GLFWwindow *window) const;
+    void runMainLoop(GLFWwindow* window) const;
 };
 
 #endif //AR_ENGINE_LINUXPLATFORMWINDOWMAKER_H
